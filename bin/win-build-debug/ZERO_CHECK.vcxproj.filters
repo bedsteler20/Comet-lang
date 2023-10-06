@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\bin\win-build-debug\CMakeFiles\ab5f405f989408307a551778ed43b73f\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{5BD0398E-15B9-3DA2-93D2-99B2189FBD04}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

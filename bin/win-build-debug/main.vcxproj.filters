@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\lexer\token.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\compiler\comet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\parser\scanner.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\util\vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\util\string_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\src\win\util\hashmap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\casun\Downloads\Comet-lang-main\Comet-lang-main\bin\win-build-debug\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9EA2F4D0-8B52-3943-859A-B59A604A582F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
