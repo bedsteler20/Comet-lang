@@ -24,8 +24,29 @@ void init_keywords(Keyword *keywords) {
   keywords->key = vector_create();
   keywords->value = vector_create();
 
-  push_keywords(keywords, "for", FOR);
+  if (keywords->key == NULL) {
+    printf("KEYWORDS KEY VECTOR IS NULL\n");
+  }
+
+  if (keywords->value == NULL) {
+    printf("KEYWORDS VALUE VECTOR IS NULL\n");
+  }
+
+  // Push keywords into the array
   push_keywords(keywords, "if", IF);
+  push_keywords(keywords, "for", FOR);
+  push_keywords(keywords, "else", ELSE);
+  push_keywords(keywords, "fn", FN);
+  push_keywords(keywords, "return", RETURN);
+  push_keywords(keywords, "this", THIS);
+  push_keywords(keywords, "while", WHILE);
+  push_keywords(keywords, "true", TRUE);
+  push_keywords(keywords, "false", FALSE);
+  push_keywords(keywords, "match", MATCH);
+  push_keywords(keywords, "struct", STRUCT);
+  push_keywords(keywords, "enum", ENUM);
+  push_keywords(keywords, "mod", MOD);
+  push_keywords(keywords, "enof", ENOF);
 }
 
 void push_keywords(Keyword *keywords, char *key, TokenType value) {
@@ -61,24 +82,21 @@ void _add_token(TokenType type, char literal, Scanner *scanner) {
 void add_token_to_vector(TokenType type, char literal, char *lexeme,
                          Scanner *scanner, int line_num) {
 
-  printf("INSIDE ADD_TOKEN_TO_VECTOR");
+  printf("INSIDE ADD_TOKEN_TO_VECTOR\n");
 
   if (scanner->token_list != NULL) {
-    Token *tokens = vector_add_asg(&scanner->token_list);
 
-    vector_add(&tokens, ((Token){.type = type,
-                                 .lexeme = lexeme,
-                                 .literal = literal,
-                                 .line_num = line_num}));
+    vector_add(&scanner->token_list, ((Token){.type = type,
+                                              .lexeme = lexeme,
+                                              .literal = literal,
+                                              .line_num = line_num}));
   } else {
     scanner->token_list = vector_create();
 
-    Token *tokens = vector_add_asg(&scanner->token_list);
-
-    vector_add(&tokens, ((Token){.type = type,
-                                 .lexeme = lexeme,
-                                 .literal = literal,
-                                 .line_num = line_num}));
+    vector_add(&scanner->token_list, ((Token){.type = type,
+                                              .lexeme = lexeme,
+                                              .literal = literal,
+                                              .line_num = line_num}));
   }
 }
 
@@ -91,7 +109,7 @@ void identifier(Scanner *scanner) {
   char *text = substr(scanner->start, scanner->current - scanner->start,
                       scanner->source);
   if (text == NULL) {
-    printf(stderr, "Memory allocation failed for identifier\n");
+    printf("Memory allocation failed for identifier\n");
     exit(EXIT_FAILURE);
   }
 
@@ -169,7 +187,7 @@ bool match(char *expected_token, Scanner *scanner) {
 
 void scan_token(Scanner *scanner) {
 
-  printf("INSIDE SCAN_TOKEN");
+  printf("INSIDE SCAN_TOKEN\n");
 
   char current_char = iter(scanner);
   switch (current_char) {
@@ -252,7 +270,8 @@ void scan_token(Scanner *scanner) {
     } else if (token_is_alpha(current_char)) {
       identifier(scanner);
     } else {
-      error(scanner->line_num, "Unexpected Token", scanner);
+      error(scanner->line_num, "Unexpected Token",
+            (&(Comet){.had_error = true}));
     }
   }
 }
@@ -263,7 +282,7 @@ bool end_of_source(Scanner *scanner) {
 
 void parse_tokens(Scanner *scanner) {
 
-  printf("INSIDE PARSE_TOKENS!");
+  printf("INSIDE PARSE_TOKENS!\n");
 
   init_keywords(scanner->keywords);
 

@@ -54,7 +54,7 @@ void run(char *source) {
 
   printf("BEFORE PARSE_TOKENS\n");
 
-  printf("SOURCE: %s", source);
+  printf("SOURCE: %s\n", source);
 
   parse_tokens(p_scanner);
 
@@ -62,7 +62,11 @@ void run(char *source) {
 
   Token *p_tokens = scanner.token_list;
 
-  // printf("%s\n", p_tokens[0].lexeme);
+  for (int i = 0; i < sizeof(*p_tokens) / sizeof(p_tokens[i]); i++) {
+    printf("%s\n", p_tokens[i].lexeme);
+    printf("%s\n", get_token_type(p_tokens[i].type));
+    printf("%d\n", p_tokens[i].line_num);
+  }
 
   vector_free(p_tokens);
 }

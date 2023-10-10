@@ -76,6 +76,8 @@ typedef struct {
 
 } Token;
 
+const char *get_token_type(TokenType token);
+
 void error(int line_num, char *message, Comet *comet);
 
 void report(int line_num, char *where, char *message, Comet *comet);
