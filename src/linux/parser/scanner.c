@@ -1,29 +1,36 @@
 #include <string.h>
 
-#include "../util/hashmap.h"
 #include "../util/string_util.h"
 #include "../util/vector.h"
 #include "scanner.h"
 
-void init_keywords(Hashmap *keywords) {
-  hashmap_init(keywords, hashmap_hash_string_i, strcmp);
+TokenType *get_key(Keyword *keywords, char *key_want) {
 
-  push_keywords(keywords, (&(HashmapKey){.key = "struct"}), STRUCT);
-  push_keywords(keywords, (&(HashmapKey){.key = "enum"}), ENUM);
-  push_keywords(keywords, (&(HashmapKey){.key = "for"}), FOR);
-  push_keywords(keywords, (&(HashmapKey){.key = "while"}), WHILE);
-  push_keywords(keywords, (&(HashmapKey){.key = "if"}), IF);
-  push_keywords(keywords, (&(HashmapKey){.key = "fn"}), FN);
-  push_keywords(keywords, (&(HashmapKey){.key = "true"}), TRUE);
-  push_keywords(keywords, (&(HashmapKey){.key = "false"}), FALSE);
-  push_keywords(keywords, (&(HashmapKey){.key = "return"}), RETURN);
-  push_keywords(keywords, (&(HashmapKey){.key = "match"}), MATCH);
-  push_keywords(keywords, (&(HashmapKey){.key = "mod"}), MOD);
-  push_keywords(keywords, (&(HashmapKey){.key = "this"}), THIS);
+  int index;
+
+  for (index = 0; index < sizeof(*keywords->key) / sizeof(keywords->key[index]);
+       index++) {
+    printf("INSIDE GET_KEY FOR LOOP\n");
+    if (strcmp(*keywords->key, key_want) &&
+        sizeof(keywords->key) == sizeof(keywords->value)) {
+      return keywords[index].value;
+    }
+  }
+
+  return NULL;
 }
 
-void push_keywords(Hashmap *keywords, HashmapKey *key, TokenType keyword) {
-  hashmap_put(keywords, key->key, &keyword);
+void init_keywords(Keyword *keywords) {
+  keywords->key = vector_create();
+  keywords->value = vector_create();
+
+  push_keywords(keywords, "for", FOR);
+  push_keywords(keywords, "if", IF);
+}
+
+void push_keywords(Keyword *keywords, char *key, TokenType value) {
+  vector_add(&keywords->key, key);
+  vector_add(&keywords->value, value);
 }
 
 char peek(Scanner *scanner) {
@@ -54,6 +61,8 @@ void _add_token(TokenType type, char literal, Scanner *scanner) {
 void add_token_to_vector(TokenType type, char literal, char *lexeme,
                          Scanner *scanner, int line_num) {
 
+  printf("INSIDE ADD_TOKEN_TO_VECTOR");
+
   if (scanner->token_list != NULL) {
     Token *tokens = vector_add_asg(&scanner->token_list);
 
@@ -74,18 +83,27 @@ void add_token_to_vector(TokenType type, char literal, char *lexeme,
 }
 
 void identifier(Scanner *scanner) {
+  printf("INSIDE IDENTIFIER\n");
 
   while (token_is_alpha_num(peek(scanner)))
     iter(scanner);
 
-  char *text = substr(scanner->start, scanner->current, scanner->source);
-  TokenType *token_type = hashmap_get(&scanner->keywords, text);
+  char *text = substr(scanner->start, scanner->current - scanner->start,
+                      scanner->source);
+  if (text == NULL) {
+    printf(stderr, "Memory allocation failed for identifier\n");
+    exit(EXIT_FAILURE);
+  }
 
-  if (*token_type == NULL)
-    *token_type = IDENT;
-  add_token(*token_type, scanner);
+  TokenType *token_type = get_key(scanner->keywords, text);
 
-  add_token(IDENT, scanner);
+  if (token_type == NULL) {
+    add_token(IDENT, scanner);
+  } else {
+    add_token(*token_type, scanner);
+  }
+
+  free(text);
 }
 
 bool token_is_alpha(char current_char) {
@@ -150,6 +168,8 @@ bool match(char *expected_token, Scanner *scanner) {
 }
 
 void scan_token(Scanner *scanner) {
+
+  printf("INSIDE SCAN_TOKEN");
 
   char current_char = iter(scanner);
   switch (current_char) {
@@ -241,9 +261,11 @@ bool end_of_source(Scanner *scanner) {
   return scanner->current >= sizeof(scanner->source);
 }
 
-Token *parse_tokens(Scanner *scanner) {
+void parse_tokens(Scanner *scanner) {
 
-  init_keywords(&scanner->keywords);
+  printf("INSIDE PARSE_TOKENS!");
+
+  init_keywords(scanner->keywords);
 
   while (!end_of_source(scanner)) {
     scanner->start = scanner->current;
@@ -251,5 +273,4 @@ Token *parse_tokens(Scanner *scanner) {
   }
 
   add_token_to_vector(ENOF, NULL, "", scanner, scanner->line_num);
-  return scanner->token_list;
 }

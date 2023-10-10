@@ -5,10 +5,10 @@
 
 int main(int argc, char *argv[]) {
   char *arg = ARGV;
-  if (ARGV != NULL && strstr(ARGV, ".cml") != NULL) {
-    run_file(ARGV);
+  if (arg != NULL && strstr(arg, ".cml") != NULL) {
+    run_file(arg);
   } else {
-    printf("%s", ARGV);
+    printf("%s", arg);
     run_prompt();
   }
 }

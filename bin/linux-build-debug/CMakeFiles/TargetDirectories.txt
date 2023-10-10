@@ -1,0 +1,3 @@
+/home/chase/projects/C/comet-lang/bin/linux-build-debug/CMakeFiles/main.dir
+/home/chase/projects/C/comet-lang/bin/linux-build-debug/CMakeFiles/edit_cache.dir
+/home/chase/projects/C/comet-lang/bin/linux-build-debug/CMakeFiles/rebuild_cache.dir

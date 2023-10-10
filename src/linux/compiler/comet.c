@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "../lexer/token.h"
+#include "../parser/scanner.h"
 #include "../util/vector.h"
 #include "comet.h"
 
@@ -36,21 +37,42 @@ char *read_file(char *file_path) {
 
 void run(char *source) {
 
-  char **tokens = vector_create();
+  printf("BEFORE SCANNER CREATION\n");
 
-  vector_add(&tokens, source);
+  Scanner scanner = (Scanner){
+      .source = source,
+      .token_list = vector_create(),
+      .start = 0,
+      .current = 0,
+      .keywords = &(Keyword){.key = NULL, .value = NULL},
+      .line_num = 0,
+  };
 
-  for (int i = 0; i < vector_size(tokens); i++) {
-    printf("%s\n", tokens[i]);
-  }
+  printf("AFTER SCANNER CREATION\n");
 
-  vector_free(tokens);
+  Scanner *p_scanner = &scanner;
+
+  printf("BEFORE PARSE_TOKENS\n");
+
+  printf("SOURCE: %s", source);
+
+  parse_tokens(p_scanner);
+
+  printf("AFTER PARSE_TOKENS\n");
+
+  Token *p_tokens = scanner.token_list;
+
+  // printf("%s\n", p_tokens[0].lexeme);
+
+  vector_free(p_tokens);
 }
 
 void run_prompt() {
 
   Comet comet;
   comet.had_error = false;
+
+  printf("INSIDE RUN_PROMPT\n");
 
   char line[INPUT_LIMIT];
   while (1) {
@@ -67,6 +89,8 @@ void run_prompt() {
 }
 
 void run_file(char *file_path) {
+
+  printf("INSIDE RUN_FILE\n");
 
   char *file_content = read_file(file_path);
   run(file_content);

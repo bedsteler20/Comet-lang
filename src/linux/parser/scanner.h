@@ -1,25 +1,27 @@
 #pragma once
 
 #include "../lexer/token.h"
-#include "../util/hashmap.h"
 #include "../util/vector.h"
 
 typedef struct {
-  char key[20];
-} HashmapKey;
-
-typedef HASHMAP(HashmapKey, TokenType) Hashmap;
+  char **key;
+  TokenType *value;
+} Keyword;
 
 typedef struct {
   char *source;
   Token *token_list;
-  Hashmap keywords;
+  Keyword *keywords;
   int start;
   int current;
   int line_num;
 } Scanner;
 
-void push_keywords(Hashmap *keywords, HashmapKey *key, TokenType keyword);
+TokenType *get_key(Keyword *keywords, char *key_want);
+
+void init_keywords(Keyword *keywords);
+
+void push_keywords(Keyword *keywords, char *key, TokenType value);
 
 void identifier(Scanner *scanner);
 
@@ -46,7 +48,7 @@ void add_token(TokenType type, Scanner *scanner);
 
 void _add_token(TokenType type, char literal, Scanner *scanner);
 
-Token *parse_tokens(Scanner *scanner);
+void parse_tokens(Scanner *scanner);
 
 void scan_token(Scanner *scanner);
 
