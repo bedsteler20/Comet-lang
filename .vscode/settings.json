@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.sudo": "pseudo",
+    "scanner.h": "c",
+    "vector.h": "c",
+    "comet.h": "c"
+  }
+}
