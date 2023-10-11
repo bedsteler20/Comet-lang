@@ -1,3 +1,8 @@
 project('comet', 'c')
 
-subdir('src/linux')
+endif
+if sys.OS() is 'Linux'
+    subdir('src/linux')
+elif sys.OS() is 'Windows'
+    subdir('src/windows')
+endif

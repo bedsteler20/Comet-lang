@@ -1,3 +1,0 @@
-C:/Users/casun/Downloads/Comet-lang-main/Comet-lang-main/bin/win-build-debug/CMakeFiles/main.dir
-C:/Users/casun/Downloads/Comet-lang-main/Comet-lang-main/bin/win-build-debug/CMakeFiles/ALL_BUILD.dir
-C:/Users/casun/Downloads/Comet-lang-main/Comet-lang-main/bin/win-build-debug/CMakeFiles/ZERO_CHECK.dir
