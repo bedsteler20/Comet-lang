@@ -9,4 +9,5 @@
   "mesonbuild.linting.enabled": true,
   "mesonbuild.downloadLanguageServer": "ask",
   "mesonbuild.formatting.enabled": true,
+  "C_Cpp.default.compileCommands": "build/compile_commands.json",
 }
