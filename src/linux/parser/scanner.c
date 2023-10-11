@@ -6,14 +6,11 @@
 
 TokenType *get_key(Keyword *keywords, char *key_want) {
 
-  int index;
-
-  for (index = 0; index < sizeof(*keywords->key) / sizeof(keywords->key[index]);
-       index++) {
-    printf("INSIDE GET_KEY FOR LOOP\n");
-    if (strcmp(*keywords->key, key_want) &&
-        sizeof(keywords->key) == sizeof(keywords->value)) {
-      return keywords[index].value;
+  for (int i = 0; i < sizeof(keywords->key) / sizeof(keywords[i].key); i++) {
+    printf("KEY: %s\n", *keywords[i].key);
+    printf("WANT: %s\n", key_want);
+    if (strcmp(*keywords[i].key, key_want) == 0) {
+      return keywords[i].value;
     }
   }
 
@@ -47,6 +44,10 @@ void init_keywords(Keyword *keywords) {
   push_keywords(keywords, "enum", ENUM);
   push_keywords(keywords, "mod", MOD);
   push_keywords(keywords, "enof", ENOF);
+
+  for (int i = 0; i < sizeof(keywords->key) / sizeof(keywords[i].key); i++) {
+    printf("KEYS: %s\n", *keywords[i].key);
+  }
 }
 
 void push_keywords(Keyword *keywords, char *key, TokenType value) {
@@ -55,7 +56,6 @@ void push_keywords(Keyword *keywords, char *key, TokenType value) {
 }
 
 char peek(Scanner *scanner) {
-
   if (end_of_source(scanner))
     return '\0';
   return scanner->source[scanner->current];
@@ -82,8 +82,6 @@ void _add_token(TokenType type, char literal, Scanner *scanner) {
 void add_token_to_vector(TokenType type, char literal, char *lexeme,
                          Scanner *scanner, int line_num) {
 
-  printf("INSIDE ADD_TOKEN_TO_VECTOR\n");
-
   if (scanner->token_list != NULL) {
 
     vector_add(&scanner->token_list, ((Token){.type = type,
@@ -101,13 +99,11 @@ void add_token_to_vector(TokenType type, char literal, char *lexeme,
 }
 
 void identifier(Scanner *scanner) {
-  printf("INSIDE IDENTIFIER\n");
 
   while (token_is_alpha_num(peek(scanner)))
     iter(scanner);
 
-  char *text = substr(scanner->start, scanner->current - scanner->start,
-                      scanner->source);
+  char *text = substr(scanner->start, scanner->current, scanner->source);
   if (text == NULL) {
     printf("Memory allocation failed for identifier\n");
     exit(EXIT_FAILURE);
@@ -186,8 +182,6 @@ bool match(char *expected_token, Scanner *scanner) {
 }
 
 void scan_token(Scanner *scanner) {
-
-  printf("INSIDE SCAN_TOKEN\n");
 
   char current_char = iter(scanner);
   switch (current_char) {
@@ -281,8 +275,6 @@ bool end_of_source(Scanner *scanner) {
 }
 
 void parse_tokens(Scanner *scanner) {
-
-  printf("INSIDE PARSE_TOKENS!\n");
 
   init_keywords(scanner->keywords);
 

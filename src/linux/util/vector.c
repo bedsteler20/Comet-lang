@@ -1,6 +1,7 @@
 // Copyright (c) 2020, Mashpoe
 // All rights reserved
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "vector.h"
@@ -38,12 +39,14 @@ vec_size_t vector_size(vector vec) { return vector_get_data(vec)->length; }
 vec_size_t vector_get_alloc(vector vec) { return vector_get_data(vec)->alloc; }
 
 vector_data *vector_realloc(vector_data *v_data, vec_type_t type_size) {
+  printf("ORIGINAL VECTOR ALLOC: %d\n", v_data->alloc);
   vec_size_t new_alloc = (v_data->alloc == 0) ? 1 : v_data->alloc * 2;
   vector_data *new_v_data = (vector_data *)realloc(
       v_data, sizeof(vector_data) + new_alloc * type_size);
   if (new_v_data != NULL) {
     new_v_data->alloc = new_alloc;
   }
+  printf("NEW VECTOR ALLOC: %d\n", new_v_data->alloc);
   return new_v_data;
 }
 

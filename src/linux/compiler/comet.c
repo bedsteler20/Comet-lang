@@ -37,35 +37,27 @@ char *read_file(char *file_path) {
 
 void run(char *source) {
 
-  printf("BEFORE SCANNER CREATION\n");
-
   Scanner scanner = (Scanner){
       .source = source,
       .token_list = vector_create(),
       .start = 0,
       .current = 0,
-      .keywords = &(Keyword){.key = NULL, .value = NULL},
+      .keywords = &(Keyword){.key = NULL, .value = 0},
       .line_num = 0,
   };
 
-  printf("AFTER SCANNER CREATION\n");
-
   Scanner *p_scanner = &scanner;
-
-  printf("BEFORE PARSE_TOKENS\n");
 
   printf("SOURCE: %s\n", source);
 
   parse_tokens(p_scanner);
 
-  printf("AFTER PARSE_TOKENS\n");
-
   Token *p_tokens = scanner.token_list;
 
   for (int i = 0; i < sizeof(*p_tokens) / sizeof(p_tokens[i]); i++) {
-    printf("%s\n", p_tokens[i].lexeme);
-    printf("%s\n", get_token_type(p_tokens[i].type));
-    printf("%d\n", p_tokens[i].line_num);
+    printf("Token Name: %s\n", p_tokens[i].lexeme);
+    printf("Token Type: %s\n", get_token_type(p_tokens[i].type));
+    printf("Line Number: %d\n", p_tokens[i].line_num);
   }
 
   vector_free(p_tokens);
@@ -75,8 +67,6 @@ void run_prompt() {
 
   Comet comet;
   comet.had_error = false;
-
-  printf("INSIDE RUN_PROMPT\n");
 
   char line[INPUT_LIMIT];
   while (1) {
@@ -93,9 +83,6 @@ void run_prompt() {
 }
 
 void run_file(char *file_path) {
-
-  printf("INSIDE RUN_FILE\n");
-
   char *file_content = read_file(file_path);
   run(file_content);
 }
