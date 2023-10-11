@@ -4,5 +4,9 @@
     "scanner.h": "c",
     "vector.h": "c",
     "comet.h": "c"
-  }
+  },
+  "mesonbuild.buildFolder": "build",
+  "mesonbuild.linting.enabled": true,
+  "mesonbuild.downloadLanguageServer": "ask",
+  "mesonbuild.formatting.enabled": true,
 }

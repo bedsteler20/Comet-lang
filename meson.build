@@ -1,8 +1,7 @@
 project('comet', 'c')
 
-endif
-if sys.OS() is 'Linux'
+if build_machine.system() == 'linux'
     subdir('src/linux')
-elif sys.OS() is 'Windows'
+elif build_machine.system() == 'windows'
     subdir('src/windows')
 endif

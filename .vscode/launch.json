@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "name": "(gdb) Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "linux": {
+        "program": "${workspaceFolder}/build/src/linux/comet"
+      },
+      "windows": {
+        "program": "${workspaceFolder}/build/src/windows/comet.exe"
+      },
+      "preLaunchTask": "build",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
